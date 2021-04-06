@@ -1,5 +1,3 @@
-//create reset function. once clicked it will reset the game board or refreshes the page to clear the game submission at least
-
 //create an array to store player input as indexes
 
 //game grid indexes:
@@ -13,24 +11,22 @@ let play_board = ["", "", "", "", "", "", "", "", ""];
 const player = "O";
 const computer = "X";
 
-//create a function to render the board on the DOM.
+//create a function to render the board on the DOM. || render_board()
 const board_container = document.querySelector(".game-grid");
+
+//create a winner function to render the winner on the DOM
+const winner_statement = document.getElementById("winner");
+
 const render_board = () => {
 	board_container.innerHTML = "";
 
-	play_board.forEach((element, index) => {
-		board_container.innerHTML += `<div id="block_${index}"
-      class="block"
-      onclick="addPlayerMove(${index})">
-      ${play_board[index]}
-      </div>`;
-		if (element == player || element == computer) {
-			document.querySelector(`#block_${index}`).classList.add("occupied");
+	play_board.forEach((e, i) => {
+		board_container.innerHTML += `<div id="block_${i}" class="block" onclick="addPlayerMove(${i})">${play_board[i]}</div>`;
+		if (e == player || e == computer) {
+			document.querySelector(`#block_${i}`).classList.add("occupied");
 		}
 	});
 };
-
-render_board();
 
 //adding player move.
 const addPlayerMove = (element) => {
@@ -63,11 +59,11 @@ let isBoardFull = false;
 const check_board_complete = () => {
 	let flag = true;
 	play_board.forEach((element) => {
-		if (element !== player && element !== computer) {
+		if (element != player && element != computer) {
 			flag = false;
 		}
 	});
-	isBoardFull = !flag;
+	isBoardFull = flag;
 };
 
 //staying dry and invoking one function at once rather than invoking the re-rendering at after every function.
@@ -75,3 +71,12 @@ const game_loop = () => {
 	render_board();
 	check_board_complete();
 };
+
+//create reset function. once clicked it will reset the game board or refreshes the page to clear the game submission at least
+
+const reset_board = () => {
+	play_board = ["", "", "", "", "", "", "", "", ""];
+	isBoardFull = false;
+	render_board();
+};
+render_board();
